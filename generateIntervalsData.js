@@ -1,3 +1,5 @@
+const formatNumber = require("./formatNumber");
+
 function generateIntervalsData(coordinatePairs) {
   const stepX = generateStep(coordinatePairs.map((pair) => pair[0]));
   const stepY = generateStep(coordinatePairs.map((pair) => pair[1]));
@@ -52,10 +54,6 @@ function findMin(values) {
 
 function findMax(values) {
   return Math.max(...values.map((v) => Number(v)));
-}
-
-function formatNumber(value) {
-  return Number(value.toFixed(5));
 }
 
 module.exports = generateIntervalsData;
