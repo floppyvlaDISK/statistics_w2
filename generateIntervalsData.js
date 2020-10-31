@@ -14,6 +14,8 @@ function generateIntervalsData(coordinatePairs) {
     stepY,
     intervalsX,
     intervalsY,
+    intervalsMidPointsX: generateIntervalsMidPoints(intervalsX),
+    interavlsMidPointsY: generateIntervalsMidPoints(intervalsY),
     minX: findMin(coordinatePairs.map((pair) => pair[0])),
     maxX: findMax(coordinatePairs.map((pair) => pair[0])),
     minY: findMin(coordinatePairs.map((pair) => pair[1])),
@@ -36,6 +38,12 @@ function generateInterval(values, step) {
     begin = end;
   }
   return result;
+}
+
+function generateIntervalsMidPoints(interval) {
+  return interval.map(([begin, end]) => {
+    return formatNumber((begin + end) / 2);
+  });
 }
 
 function findMin(values) {
