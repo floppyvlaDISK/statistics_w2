@@ -1,4 +1,5 @@
 const generateIntervalsData = require("./generateIntervalsData");
+const countIntervalsHits = require("./countIntervalsHits");
 const data = require("./data.json");
 
-console.log(generateIntervalsData(data));
+console.log(countIntervalsHits(generateIntervalsData(data)));

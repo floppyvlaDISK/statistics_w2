@@ -18,6 +18,7 @@ function generateIntervalsData(coordinatePairs) {
     maxX: findMax(coordinatePairs.map((pair) => pair[0])),
     minY: findMin(coordinatePairs.map((pair) => pair[1])),
     maxY: findMax(coordinatePairs.map((pair) => pair[1])),
+    rawCoordinates: [...coordinatePairs],
   };
 }
 
