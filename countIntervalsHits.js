@@ -1,6 +1,10 @@
+const formatNumber = require("./formatNumber");
+
 function countIntervalsHits(intervalsData) {
-  const result = {};
+  const hitsForXY = {};
+  const hits = {};
   for (let i = 0; i < intervalsData.intervalsX.length; i++) {
+    hitsForXY[i] = {};
     for (let j = 0; j < intervalsData.intervalsY.length; j++) {
       const xInterval = intervalsData.intervalsX[i];
       const yInterval = intervalsData.intervalsY[j];
@@ -9,7 +13,8 @@ function countIntervalsHits(intervalsData) {
       const key = `${intervalToString(xInterval)}-${intervalToString(
         yInterval
       )}`;
-      result[key] = 0;
+      hits[key] = 0;
+      hitsForXY[i][j] = 0;
       for (let k = 0; k < intervalsData.rawCoordinates.length; k++) {
         if (
           withinInterval(
@@ -19,12 +24,16 @@ function countIntervalsHits(intervalsData) {
           ) &&
           withinInterval(yInterval, intervalsData.rawCoordinates[k][1], isLastY)
         ) {
-          result[key]++;
+          hits[key]++;
+          hitsForXY[i][j]++;
         }
       }
     }
   }
-  return result;
+  return {
+    hits,
+    XY: calculateXY(intervalsData, hitsForXY),
+  };
 }
 
 function withinInterval(interval, coordinate, isInclusive) {
@@ -40,6 +49,25 @@ function withinInterval(interval, coordinate, isInclusive) {
 
 function intervalToString(interval) {
   return `[${interval[0]}; ${interval[1]})`;
+}
+
+function calculateXY(intervalsData, hitsForXY) {
+  const result = {};
+  for (let i = 0; i < intervalsData.intervalsMidPointsX.length; i++) {
+    result[i] = {};
+    for (let j = 0; j < intervalsData.intervalsMidPointsY.length; j++) {
+      if (hitsForXY[i][j]) {
+        result[i][
+          `${intervalsData.intervalsMidPointsX[i]} - ${intervalsData.intervalsMidPointsY[j]}`
+        ] = formatNumber(
+          intervalsData.intervalsMidPointsX[i] *
+            intervalsData.intervalsMidPointsY[j] *
+            hitsForXY[i][j]
+        );
+      }
+    }
+  }
+  return result;
 }
 
 module.exports = countIntervalsHits;
