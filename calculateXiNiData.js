@@ -60,14 +60,14 @@ function calculateXiSquaredTimesNiSum(intervalsData) {
 function calculateXiTimesNiMedium(intervalsData) {
   return formatNumber(
     calculateXiTimesNiSum(intervalsData) /
-      intervalsData.intervalsMidPointsX.length
+      intervalsData.rawCoordinates.length
   );
 }
 
 function calculateXiSquaredTimesNiMedium(intervalsData) {
   return formatNumber(
     calculateXiSquaredTimesNiSum(intervalsData) /
-      intervalsData.intervalsMidPointsX.length
+      intervalsData.rawCoordinates.length
   );
 }
 
