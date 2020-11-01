@@ -87,7 +87,7 @@ function calculateDXi(intervalsData) {
 }
 
 function calculateSXi(intervalsData) {
-  return Math.sqrt(calculateDXi(intervalsData));
+  return formatNumber(Math.sqrt(calculateDXi(intervalsData)));
 }
 
 module.exports = calculateXiNiData;
