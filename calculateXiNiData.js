@@ -1,34 +1,43 @@
 const formatNumber = require("./formatNumber");
 
-const n = [11, 7, 11, 20, 7, 11, 5, 8, 11, 9];
-
-function calculateXiNiData(intervalsData) {
+function calculateXiNiData(intervalsData, nValues, varName = "X") {
+  const intervalsDataEnriched = { ...intervalsData, nValues, varName };
   return {
-    "Xi * Ni": calculateXiTimesNi(intervalsData),
-    "Xi^2": calculateXiSquared(intervalsData),
-    "Xi^2 * Ni": calculateXiSquaredTimesNi(intervalsData),
-    "Xi * Ni Sum": calculateXiTimesNiSum(intervalsData),
-    "Xi^2 * Ni Sum": calculateXiSquaredTimesNiSum(intervalsData),
-    "Xi Medium": calculateXiTimesNiMedium(intervalsData),
-    "Xi^2 Medium": calculateXiSquaredTimesNiMedium(intervalsData),
-    "D(Xi)": calculateDXi(intervalsData),
-    "S(Xi)": calculateSXi(intervalsData),
+    [`${varName}i * Ni`]: calculateXiTimesNi(intervalsDataEnriched),
+    [`${varName}i^2`]: calculateXiSquared(intervalsDataEnriched),
+    [`${varName}i^2 * Ni`]: calculateXiSquaredTimesNi(intervalsDataEnriched),
+    [`${varName}i * Ni Sum`]: calculateXiTimesNiSum(intervalsDataEnriched),
+    [`${varName}i^2 * Ni Sum`]: calculateXiSquaredTimesNiSum(
+      intervalsDataEnriched
+    ),
+    [`${varName}i Medium`]: calculateXiTimesNiMedium(intervalsDataEnriched),
+    [`${varName}i^2 Medium`]: calculateXiSquaredTimesNiMedium(
+      intervalsDataEnriched
+    ),
+    [`D(${varName}i)`]: calculateDXi(intervalsDataEnriched),
+    [`S(${varName}i)`]: calculateSXi(intervalsDataEnriched),
   };
 }
 
 function calculateXiTimesNi(intervalsData) {
   const result = [];
-  for (let i = 0; i < intervalsData.intervalsMidPointsX.length; i++) {
-    result.push(formatNumber(intervalsData.intervalsMidPointsX[i] * n[i]));
+  for (
+    let i = 0;
+    i < intervalsData[`intervalsMidPoints${intervalsData.varName}`].length;
+    i++
+  ) {
+    result.push(
+      formatNumber(intervalsData[`intervalsMidPoints${intervalsData.varName}`][i] * intervalsData.nValues[i])
+    );
   }
   return result;
 }
 
 function calculateXiSquared(intervalsData) {
   const result = [];
-  for (let i = 0; i < intervalsData.intervalsMidPointsX.length; i++) {
+  for (let i = 0; i < intervalsData[`intervalsMidPoints${intervalsData.varName}`].length; i++) {
     result.push(
-      formatNumber(Math.pow(intervalsData.intervalsMidPointsX[i], 2))
+      formatNumber(Math.pow(intervalsData[`intervalsMidPoints${intervalsData.varName}`][i], 2))
     );
   }
   return result;
@@ -38,7 +47,7 @@ function calculateXiSquaredTimesNi(intervalsData) {
   const result = [];
   const xiSquared = calculateXiSquared(intervalsData);
   for (let i = 0; i < xiSquared.length; i++) {
-    result.push(formatNumber(xiSquared[i] * n[i]));
+    result.push(formatNumber(xiSquared[i] * intervalsData.nValues[i]));
   }
   return result;
 }
@@ -59,8 +68,7 @@ function calculateXiSquaredTimesNiSum(intervalsData) {
 
 function calculateXiTimesNiMedium(intervalsData) {
   return formatNumber(
-    calculateXiTimesNiSum(intervalsData) /
-      intervalsData.rawCoordinates.length
+    calculateXiTimesNiSum(intervalsData) / intervalsData.rawCoordinates.length
   );
 }
 

@@ -17,7 +17,7 @@ function generateIntervalsData(coordinatePairs) {
     intervalsX,
     intervalsY,
     intervalsMidPointsX: generateIntervalsMidPoints(intervalsX),
-    interavlsMidPointsY: generateIntervalsMidPoints(intervalsY),
+    intervalsMidPointsY: generateIntervalsMidPoints(intervalsY),
     minX: findMin(coordinatePairs.map((pair) => pair[0])),
     maxX: findMax(coordinatePairs.map((pair) => pair[0])),
     minY: findMin(coordinatePairs.map((pair) => pair[1])),
